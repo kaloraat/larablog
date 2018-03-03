@@ -15,6 +15,7 @@ class CreateBlogsTable extends Migration {
 			$table->increments('id');
 			$table->string('title');
 			$table->text('body');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}
