@@ -15,11 +15,11 @@
           <div class="col-md-12">
             <div class="btn-group">
 
-              <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary btn-xs pull-left btn-margin-right btn-margin-right">Edit </a>
+              <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary btn-sm pull-left btn-margin-right btn-margin-right">Edit </a>
 
              <form method="post" action="{{ route('blogs.delete', $blog->id) }}">
                {{ method_field('delete') }}
-                <button type="submit" class="btn btn-danger btn-xs pull-left">Delete</button>
+                <button type="submit" class="btn btn-danger btn-sm pull-left">Delete</button>
                 {{ csrf_field() }}
              </form>
 

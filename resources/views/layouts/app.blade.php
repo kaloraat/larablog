@@ -27,7 +27,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li><a class="nav-link" href="{{ route('blogs.create') }}">Create</a></li>
+                        <li><a class="nav-link" href="{{ route('admin.index') }}">Admin</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -61,7 +61,9 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container">
+                @yield('content')
+            </div>
         </main>
     </div>
 

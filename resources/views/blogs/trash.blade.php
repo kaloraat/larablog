@@ -15,7 +15,7 @@
     {{-- restore --}}
     <div class="btn-group">
         <form method="get" action="{{ route('blogs.restore', $blog->id) }}">
-            <button type="submit" class="btn btn-success btn-xs pull-left btn-margin-right">
+            <button type="submit" class="btn btn-success btn-sm pull-left btn-margin-right">
                 Restore
             </button>
             {{ csrf_field() }}
@@ -24,7 +24,7 @@
         {{-- permanent delete --}}
         <form method="post" action="{{ route('blogs.permanent-delete', $blog->id) }}">
             {{ method_field('delete') }}
-            <button type="submit" class="btn btn-danger btn-xs pull-left btn-margin-right">
+            <button type="submit" class="btn btn-danger btn-sm pull-left btn-margin-right">
                 Permanent delete
             </button>
             {{ csrf_field() }}
