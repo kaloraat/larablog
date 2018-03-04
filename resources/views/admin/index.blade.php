@@ -12,6 +12,8 @@
 
             <a href="{{ route('blogs.trash') }}" class="btn btn-danger btn-margin-right">Trashed Blogs</a>
 
+            <a href="{{ route('categories.create') }}" class="btn btn-success btn-margin-right">Create categories</a>
+
         </div>
     </div>
 

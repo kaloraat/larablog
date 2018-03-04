@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 use App\Blog;
+use App\Category;
 use Illuminate\Http\Request;
 
 class BlogsController extends Controller {
 	public function index() {
-		$blogs = Blog::all();
+		$blogs = Blog::latest()->get();
 		return view('blogs.index', compact('blogs'));
 	}
 
 	public function create() {
-		return view('blogs.create');
+		$categories = Category::latest()->get();
+		return view('blogs.create', compact('categories'));
 	}
 
 	public function store(Request $request) {
 		$input = $request->all();
 		$blog = Blog::create($input);
+		// sync with categories
+		if ($request->category_id) {
+			$blog->category()->sync($request->category_id);
+		}
 		return redirect('/blogs');
 	}
 
