@@ -18,6 +18,13 @@ class BlogsController extends Controller {
 
 	public function store(Request $request) {
 		$input = $request->all();
+		// image upload
+		if ($file = $request->file('featured_image')) {
+			$name = uniqid() . $file->getClientOriginalName();
+			$file->move('images/featured_image/', $name);
+			$input['featured_image'] = $name;
+		}
+
 		$blog = Blog::create($input);
 		// sync with categories
 		if ($request->category_id) {
@@ -32,18 +39,31 @@ class BlogsController extends Controller {
 	}
 
 	public function edit($id) {
+		$categories = Category::latest()->get();
 		$blog = Blog::findOrFail($id);
-		return view('blogs.edit', ['blog' => $blog]);
+
+		$bc = array();
+		foreach ($blog->category as $c) {
+			$bc[] = $c->id;
+		}
+
+		$filtered = array_except($categories, $bc);
+
+		return view('blogs.edit', ['blog' => $blog, 'categories' => $categories, 'filtered' => $filtered]);
 	}
 
 	public function update(Request $request, $id) {
 		$input = $request->all();
 		$blog = Blog::findOrFail($id);
 		$blog->update($input);
+		// sync with categories
+		if ($request->category_id) {
+			$blog->category()->sync($request->category_id);
+		}
 		return redirect('blogs');
 	}
 
-	public function delete(Request $request, $id) {
+	public function delete($id) {
 		$blog = Blog::findOrFail($id);
 		$blog->delete();
 		return redirect('blogs');

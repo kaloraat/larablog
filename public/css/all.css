@@ -10022,3 +10022,7 @@ a.text-dark:focus {
 .white-text {
     color: #ffffff;
 }
+
+.featured_image {
+    width: 100%;
+}
