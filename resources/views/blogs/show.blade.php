@@ -2,9 +2,9 @@
 
 @section('content')
 
-@include('partials.meta_dynamic')
-{{-- @section('meta_title') {{ $blog->meta_title }} @endsection
-@section('meta_description') {{ $blog->meta_description }} @endsection --}}
+{{-- @include('partials.meta_dynamic') --}}
+@section('meta_title') {{ $blog->meta_title }} @endsection
+@section('meta_description') {{ $blog->meta_description }} @endsection
 
    <div class="container-fluid">
 
@@ -39,7 +39,7 @@
        </div>
 
        <div class="col-md-12">
-          <p>{{ $blog->body }}</p>
+          {!! $blog->body !!}
           <hr>
           <strong>Categories: </strong>
           @foreach($blog->category as $category)
