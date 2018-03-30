@@ -14,7 +14,7 @@ class ComposerServiceProvider extends ServiceProvider {
 	 */
 	public function boot() {
 		View::composer(['partials.meta_dynamic', 'layouts.nav'], function ($view) {
-			$view->with('blog', Blog::all());
+			$view->with('blogs', Blog::all());
 		});
 	}
 

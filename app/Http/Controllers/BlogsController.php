@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 class BlogsController extends Controller {
 	public function index() {
-		$blogs = Blog::latest()->get();
+		$blogs = Blog::where('status', 1)->latest()->get();
+		// $blogs = Blog::latest()->get();
 		return view('blogs.index', compact('blogs'));
 	}
 
@@ -48,7 +49,7 @@ class BlogsController extends Controller {
 
 		$bc = array();
 		foreach ($blog->category as $c) {
-			$bc[] = $c->id;
+			$bc[] = $c->id - 1;
 		}
 
 		$filtered = array_except($categories, $bc);
@@ -57,6 +58,7 @@ class BlogsController extends Controller {
 	}
 
 	public function update(Request $request, $id) {
+		// dd($request->all());
 		$input = $request->all();
 		$blog = Blog::findOrFail($id);
 		$blog->update($input);
