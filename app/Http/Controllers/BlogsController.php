@@ -6,6 +6,12 @@ use App\Category;
 use Illuminate\Http\Request;
 
 class BlogsController extends Controller {
+
+	public function __construct() {
+		$this->middleware('author', ['only' => ['create', 'store', 'edit', 'update']]);
+		$this->middleware('admin', ['only' => ['delete', 'trash', 'restore', 'permanentDelete']]);
+	}
+
 	public function index() {
 		$blogs = Blog::where('status', 1)->latest()->get();
 		// $blogs = Blog::latest()->get();
@@ -30,10 +36,11 @@ class BlogsController extends Controller {
 			$input['featured_image'] = $name;
 		}
 
-		$blog = Blog::create($input);
+		// $blog = Blog::create($input);
+		$blogByUser = $request->user()->blogs()->create($input);
 		// sync with categories
 		if ($request->category_id) {
-			$blog->category()->sync($request->category_id);
+			$blogByUser->category()->sync($request->category_id);
 		}
 		return redirect('/blogs');
 	}
