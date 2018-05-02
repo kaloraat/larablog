@@ -10,6 +10,9 @@
 
        <div class="col-md-12">
            <form action="{{ route('blogs.store') }}" method="post" enctype="multipart/form-data">
+
+              @include('partials.error-message')
+
                <div class="form-group">
                    <label for="title">Title</label>
                    <input type="text" name="title" class="form-control">

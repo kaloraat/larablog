@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Blog;
 use App\Category;
 use Illuminate\Http\Request;
+use Session;
 
 class BlogsController extends Controller {
 
@@ -24,6 +25,14 @@ class BlogsController extends Controller {
 	}
 
 	public function store(Request $request) {
+		// validate
+		$rules = [
+			'title' => ['required', 'min:20', 'max:160'],
+			'body' => ['required', 'min:202'],
+		];
+
+		$this->validate($request, $rules);
+
 		$input = $request->all();
 		// meta stuff
 		$input['slug'] = str_slug($request->title);
@@ -42,11 +51,15 @@ class BlogsController extends Controller {
 		if ($request->category_id) {
 			$blogByUser->category()->sync($request->category_id);
 		}
+
+		Session::flash('blog_created_message', 'Congratulations on createing a great blog!');
+
 		return redirect('/blogs');
 	}
 
-	public function show($id) {
-		$blog = Blog::findOrFail($id);
+	public function show($slug) {
+		// $blog = Blog::findOrFail($id);
+		$blog = Blog::whereSlug($slug)->first();
 		return view('blogs.show', compact('blog'));
 	}
 

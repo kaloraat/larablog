@@ -38,7 +38,12 @@
 
        <div class="col-md-12">
           {!! $blog->body !!}
+
+          @if($blog->user)
+                Author: <a href="{{ route('users.show', $blog->user->name) }}">{{ $blog->user->name }}</a> | Posted: {{ $blog->created_at->diffForHumans() }}
+          @endif
           <hr>
+
           <strong>Categories: </strong>
           @foreach($blog->category as $category)
             <span><a href="{{ route('categories.show', $category->slug) }}">{{ $category->name }}</a></span>
