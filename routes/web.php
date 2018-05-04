@@ -24,3 +24,7 @@ Route::get('/admin/blogs', 'AdminController@blogs')->name('admin.blogs');
 // route resource
 Route::resource('categories', 'CategoryController');
 Route::resource('users', 'UserController');
+
+// contact forms
+Route::get('contact', 'MailController@contact')->name('contact');
+Route::post('contact/send', 'MailController@send')->name('mail.send');
