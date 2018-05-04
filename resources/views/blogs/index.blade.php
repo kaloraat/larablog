@@ -40,6 +40,10 @@
             <br><hr><br>
         @endforeach
 
+        <br>
+
+        <div><div class="col-md-6 offset-md-3 text-center">{{ $blogs->links() }}</div>
+
     </div>
 
 @endsection

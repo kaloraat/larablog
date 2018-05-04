@@ -18,7 +18,7 @@ class BlogsController extends Controller {
 
 	public function index() {
 		// $blogs = Blog::where('status', 1)->latest()->get();
-		$blogs = Blog::latest()->get();
+		$blogs = Blog::latest()->paginate(10);
 		return view('blogs.index', compact('blogs'));
 	}
 
@@ -130,7 +130,7 @@ class BlogsController extends Controller {
 	public function permanentDelete($id) {
 		$permanentDeleteBlog = Blog::onlyTrashed()->findOrFail($id);
 		$permanentDeleteBlog->forceDelete($permanentDeleteBlog);
-		return back();
+		return redirect('blogs');
 	}
 
 }
