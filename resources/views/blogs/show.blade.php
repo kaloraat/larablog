@@ -20,9 +20,11 @@
            <h1>{{ $blog->title }}</h1>
         </div>
 
+          @if(Auth::user())
+          @if(Auth::user()->role_id === 1 || Auth::user()->role_id === 2 && Auth::user()->id === $blog->user_id)
+
           <div class="col-md-12">
             <div class="btn-group">
-
               <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary btn-sm pull-left btn-margin-right btn-margin-right">Edit </a>
 
              <form method="post" action="{{ route('blogs.delete', $blog->id) }}">
@@ -30,9 +32,11 @@
                 <button type="submit" class="btn btn-danger btn-sm pull-left">Delete</button>
                 {{ csrf_field() }}
              </form>
-
            </div>
          </div>
+
+         @endif
+         @endif
 
        </div>
 
@@ -52,6 +56,20 @@
 
      </article>
 
-   </div>
+     <hr>
+
+<aside>
+<div id="disqus_thread"></div>
+<script>
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://larablog.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+<aside>
+
+</div>
 
 @endsection

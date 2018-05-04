@@ -10019,6 +10019,13 @@ a.text-dark:focus {
     margin-top: -25px;
 }
 
+.jumbotron {
+    color: #fff;
+    border-bottom: 1px solid #d3e0e9;
+    border-radius: 0 !important;
+    background: linear-gradient(to right, #3097d4, #fff);
+}
+
 .white-text {
     color: #ffffff;
 }

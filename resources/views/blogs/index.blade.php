@@ -14,13 +14,22 @@
         @endif
 
         @foreach($blogs as $blog)
+        <div class="col-md-8 offset-md-2 text-center">
             <h2><a href={{ route('blogs.show', [$blog->slug]) }}>{{ $blog->title }}</a></h2>
-            {!! $blog->body !!}
+
+            <div class="col-md-12">
+              @if($blog->featured_image)
+                <img src="/images/featured_image/{{ $blog->featured_image ? $blog->featured_image : '' }}" alt="{{ str_limit($blog->title, 50) }}" class="img-responsive featured_image" style="width:300px;height:auto;"><br/>
+              @endif
+            </div>
+
+            <div class="lead">{!! str_limit($blog->body, 200) !!}</div>
 
             @if($blog->user)
                 Author: <a href="{{ route('users.show', $blog->user->name) }}">{{ $blog->user->name }}</a> | Posted: {{ $blog->created_at->diffForHumans() }}
             @endif
-            <hr>
+            </div>
+            <br><hr><br>
         @endforeach
 
     </div>

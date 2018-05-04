@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 use App\Blog;
 use App\Category;
+use App\Mail\BlogPublished;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Session;
 
 class BlogsController extends Controller {
@@ -14,8 +17,8 @@ class BlogsController extends Controller {
 	}
 
 	public function index() {
-		$blogs = Blog::where('status', 1)->latest()->get();
-		// $blogs = Blog::latest()->get();
+		// $blogs = Blog::where('status', 1)->latest()->get();
+		$blogs = Blog::latest()->get();
 		return view('blogs.index', compact('blogs'));
 	}
 
@@ -41,6 +44,7 @@ class BlogsController extends Controller {
 		// image upload
 		if ($file = $request->file('featured_image')) {
 			$name = uniqid() . $file->getClientOriginalName();
+			$name = strtolower(str_replace(' ', '-', $name));
 			$file->move('images/featured_image/', $name);
 			$input['featured_image'] = $name;
 		}
@@ -50,6 +54,12 @@ class BlogsController extends Controller {
 		// sync with categories
 		if ($request->category_id) {
 			$blogByUser->category()->sync($request->category_id);
+		}
+
+		// mail
+		$users = User::all();
+		foreach ($users as $user) {
+			Mail::to($user->email)->queue(new BlogPublished($blogByUser, $user));
 		}
 
 		Session::flash('blog_created_message', 'Congratulations on createing a great blog!');
@@ -81,6 +91,17 @@ class BlogsController extends Controller {
 		// dd($request->all());
 		$input = $request->all();
 		$blog = Blog::findOrFail($id);
+
+		if ($file = $request->file('featured_image')) {
+			if ($blog->featured_image) {
+				unlink('images/featured_image/' . $blog->featured_image);
+			}
+			$name = uniqid() . $file->getClientOriginalName();
+			$name = strtolower(str_replace(' ', '-', $name));
+			$file->move('images/featured_image/', $name);
+			$input['featured_image'] = $name;
+		}
+
 		$blog->update($input);
 		// sync with categories
 		if ($request->category_id) {
